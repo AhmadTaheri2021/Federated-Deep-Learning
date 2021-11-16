@@ -30,6 +30,16 @@ import Utils
 
 
 #Implementation settings 
+'''
+config_(num_of_clients=100,
+            Max_Round=100,
+            loss='categorical_crossentropy',
+            metrics=['accuracy'],
+            bs=32,
+            lr=0.01,
+            input_shape=(28, 28, 1)
+           )
+'''
 global_config = Server_side.config_()
 
 # import and prepare data
@@ -73,8 +83,10 @@ for round in range(global_config['Max_Round']):
     # randomize clients sequence per round
     random.shuffle(client_names)
   
-    # 
-    participants_size = int(np.floor(global_config['num_of_clients'] * 0.1)) # percent 
+    # it is provided to set the percentage of participants (ps = 0.3 ==> 30%)
+    #ps = np.random.rand()
+    ps = 0.3
+    participants_size = int(np.floor(global_config['num_of_clients'] * ps)) # percent 
     sub_clients = [ client_names[clientID]  for clientID in range(participants_size)]
     
     # 
