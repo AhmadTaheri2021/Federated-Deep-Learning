@@ -24,8 +24,13 @@ import tensorflow as tf
 
 # #### global settings configuration  #####
 def config_(num_of_clients=100,
-            Max_Round=100,loss='categorical_crossentropy',
-            metrics=['accuracy'],bs=32,lr=0.01):
+            Max_Round=100,
+            loss='categorical_crossentropy',
+            metrics=['accuracy'],
+            bs=32,
+            lr=0.01,
+            input_shape=(28, 28, 1)
+           ):
    
     ''' 
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr, 
@@ -33,6 +38,9 @@ def config_(num_of_clients=100,
     '''
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr) 
     #optimizer = tf.keras.optimizers.Adam() #(learning_rate=lr)
+    
+    # a list of client names
+    client_names = ['client_{}'.format(id) for id in range(1,num_of_clients+1)]
 
     global_config = {'num_of_clients' : num_of_clients,
                       'Max_Round' :  Max_Round,
@@ -40,7 +48,10 @@ def config_(num_of_clients=100,
                       'metrics' :  metrics,
                       'batch_size' : bs ,
                       'learning_rate' : lr,
-                      'optimizer' : optimizer }
+                      'optimizer' : optimizer,
+                      'input_shape' : input_shape,
+                       'client_names' : client_names
+                    }
     return global_config
 # ################################################
 
