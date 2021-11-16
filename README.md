@@ -38,11 +38,12 @@ The module “*Data_Preprocessing*” contains three functions such as:  'load_d
 The module “*Main*” involves the main loop of process.
 ##### *(NOTE, In order to run the project, it is just needed to execute 'Main.py' file.)*
 
+
  ![image](https://user-images.githubusercontent.com/92728743/141702184-354611e7-ba6e-408e-9174-ab7a41f967ba.png)
 
 
  
-       fig. 2. illustrates the non-iid dataset 
+       fig. 2. illustrates the non-iid dataset (horizontal axis = clients and vertical axis = number of samples)
 
 
 ### *References:*
