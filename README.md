@@ -18,7 +18,7 @@ Federated learning is an approach (paradigm) to train a central model (global mo
       fig. 1. A schematic view of Federated Learning approach
 
 ## *Descriptions of implementation :*
- In this project a Federated Convolutional Neural Network (CNN) model is utilized for classification task. So that, the 'Fashion MNIST' dataset is used in non-iid form (fig. 2).  in this section contents of the project will be described in detail. The following
+In this project a Federated Convolutional Neural Network (CNN) model is utilized for classification task. So that, the 'Fashion MNIST' dataset is used in non-iid form (fig. 2).  in this section contents of the project will be described in detail. The following list represents modules of the project. 
  
  ### *Contents :* 
  1. Server_side.py 
@@ -27,10 +27,17 @@ Federated learning is an approach (paradigm) to train a central model (global mo
  4. Utils.py
  5. Main.py
  
- (NOTE, In order to run the project, it is just needed to execut 'Main.py' file.) 
+ 
+##### *The ‘Server_side’ module:*
+The module “*Serveer_side*” contains four functions such as:  'config_()' initializes the configuration parameters. 'Create_model()' is utilized to create model. 'Aggregation()' receives and aggregates local models. And also, 'Evaluation()' is used to evaluate the global model after each round. 
+##### *The ‘Client_side’ module:*
+The module “*Client_side*” contains the 'Call_Client()' function which simulates the client-side processes such as: receiving global model and retrains it to create a local model.
+##### *The ‘Data_Preprocessing’ module:*
+The module “*Data_Preprocessing*” contains three functions such as:  'load_detaset()' loads dataset and splits to train and test parts. 'Scaling_data()' is utilized to scale uploaded dataset. 'Data_partitioning()' is used to prepare distributed dataset.
+##### *The ‘Main’ module:*
+The module “*Main*” involves the main loop of process.
+##### *(NOTE, In order to run the project, it is just needed to execute 'Main.py' file.)*
 
-
-  
  ![image](https://user-images.githubusercontent.com/92728743/141702184-354611e7-ba6e-408e-9174-ab7a41f967ba.png)
 
 
