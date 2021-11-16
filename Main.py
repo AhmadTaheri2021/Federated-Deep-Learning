@@ -31,7 +31,7 @@ import Utils
 
 #Implementation settings 
 global_config = Server_side.config_()
-input_shape = (28, 28, 1)
+
 # import and prepare data
 # laod dataset 
 X_train, Y_train , X_test, Y_test = Data_Preprocessing.load_detaset()
@@ -43,7 +43,7 @@ train_data = list(zip(X_train, Y_train))
 test_data = list(zip(X_test, Y_test))
 #  
 # a list of client names
-client_names = ['client_{}'.format(id) for id in range(1,global_config['num_of_clients']+1)]
+client_names = global_config['client_names']
 
 # data partitioning 
 max_sample_size = 0.1 # the maximum sample size which can be held by a client is set to 10%
@@ -57,7 +57,7 @@ Utils.Show_dist(partitioned_data)
 
 # ####################################################
 # ### Global Model Initialization ###
-global_model = Server_side.creat_model(input_shape, 10)
+global_model = Server_side.creat_model(global_config['input_shape'], 10)
 global_config.update({'model' : global_model})
 
 # #####################################################
