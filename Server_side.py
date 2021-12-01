@@ -23,14 +23,14 @@ from sklearn.metrics import accuracy_score
 import tensorflow as tf
 
 # #### global settings configuration  #####
-def config_(num_of_clients=100,
+def config_(args,num_of_clients=100,
             Max_Round=100,
             loss='categorical_crossentropy',
             metrics=['accuracy'],
             bs=32,
             lr=0.01,
             input_shape=(28, 28, 1)
-           ):
+            ):
    
     ''' 
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr, 
@@ -38,11 +38,15 @@ def config_(num_of_clients=100,
     '''
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr) 
     #optimizer = tf.keras.optimizers.Adam() #(learning_rate=lr)
+  
+    #input_shape = (28, 28, 1)
     
     # a list of client names
     client_names = ['client_{}'.format(id) for id in range(1,num_of_clients+1)]
-
-    global_config = {'num_of_clients' : num_of_clients,
+    
+    global_config = {'ds_name' : 'FMINST',
+                      'Model_type' : 'CNN',
+                      'num_of_clients' : num_of_clients,
                       'Max_Round' :  Max_Round,
                       'loss' : loss ,
                       'metrics' :  metrics,
@@ -50,13 +54,86 @@ def config_(num_of_clients=100,
                       'learning_rate' : lr,
                       'optimizer' : optimizer,
                       'input_shape' : input_shape,
-                       'client_names' : client_names
-                    }
+                       'client_names' : client_names}
+
+
+    
+    if(args.customized):
+       # print('searching {} ...'.format(args.file))    
+        try:   
+          df_config = pd.read_csv(args.file)
+          params = df_config["param"]
+          vals = df_config["val"]
+
+          print('Loading settings from {}'.format(args.file))
+
+          for i in range(len(df_config)):
+             if(params[i] == 'metrics'):
+               vals[i] = [vals[i]]
+             global_config.update({params[i] : vals[i]})
+     
+          
+        except:
+           print('Error: file {} not found'.format(args.file))     
+           print("Default settings will be used")    
+
+     
+    print('--- Configuration settings ----')
+   # print(global_config['ds_name'])  
+                   
     return global_config
+
+# ################################################
 # ################################################
 
+def global_compression_(global_model):
+   '''
+     this function is used to compress global model.
+     'model' : global model which must be compressed. 
+   '''
+   
+   cmp_mode = global_model
+   return cmp_mode
 
-# ####### 
+# ################################################
+
+def uncompression_(local_model):
+   '''
+     this function is used to uncompress local model.
+     'cmp_model' : global model which must be compressed. 
+   '''
+   
+   mode = local_model
+   return mode
+
+# ################################################
+
+def call_client(client,
+                global_weights,
+                data_,
+                global_config):
+   '''
+     this function is used to communicate with clients.
+     
+   '''
+   # compress global model 
+   cmp_g_model = global_compression_(global_weights)
+   
+   #send global model
+   rec_local_model = Client_side.call_client(client,
+                           cmp_g_model,
+                           data_,
+                           global_config)
+   #receive local modeel
+   
+   #uncompress local model
+   local_model = uncompression_(rec_local_model)
+
+   mode = local_model
+   return mode
+
+
+# ##################################################################### 
 # The following section is the structure of model used in this example. 
 # Note that it is possible to modify the structure or use any other model.
 #   #######
