@@ -16,6 +16,39 @@ limitations under the License.
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+
+# ###############################################
+def Log_(info_):
+    '''This function is used to save reports into a csv file.
+       'info_' : a dictionary which contains parametters name and their values
+    '''
+    # open the file in the write mode
+    f = open('./Log.csv', 'w')
+    
+    # create the csv writer
+    writer = csv.writer(f)
+    
+    keys_ = list(info_.keys())
+    vals_ = list(info_.values())
+    for i in range(len(info)):
+       row = [keys_[i],vals_[i]]
+       # write a row to the csv file
+       writer.writerow(row)
+
+    # close the file
+    f.close()
+# ########################
+def comm_cost_calc_(info_):
+   '''
+      this function calculates the communication cost.
+      'info_' : a dictionary  
+   '''
+   results = dict()
+   
+   return results
+# ########################
+
 def Show_dist(partitioned_data):
     
     dist =[ np.shape(partitioned_data[Cname])[0] for Cname in partitioned_data]
