@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # ------------------------------------------------------# 
-# The following function acts as a client. So that, 
+# The following code acts as a client. So that, 
 # the global model is downloaded from the server and 
 # retrained based on its local data. finally, 
 # client uploads the local model.
@@ -27,8 +27,32 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 import tensorflow as tf
 
+# #####################################   
+
+def Local_compression_(local_model):
+   '''
+     this function is used to compress local model.
+     'local_model' : local model which must be compressed. 
+   '''
+   
+   cmp_model = local_model
+   return cmp_model
+
+# ################################################
+
+def uncompression_(global_model):
+   '''
+     this function is used to uncompress global model.
+     'global_model' : global model which must be uncompressed. 
+   '''
+   
+   model = global_model
+   return model
+
+
+# ##################################################
 # #### 
-def call_client(client,global_weights,local_dataset,global_config):
+def local_fit(client,global_weights,local_dataset,global_config):
        
        # create local model according to global model structure
         local_model = global_config['model']
@@ -57,3 +81,32 @@ def call_client(client,global_weights,local_dataset,global_config):
         local_weights = weight.copy() 
 
         return local_weights
+
+
+
+# ################################################
+def call_client(client,global_weights,local_dataset,global_config):
+
+   '''
+     this function is used to communicate with the server.
+     
+   '''
+   #uncompress global model
+   global_model = uncompression_(global_weights)
+   
+   #send global model
+   local_model = local_fit(client,
+                           global_model,
+                           local_dataset,
+                           global_config)
+
+   
+   #uncompress local model
+   cmp_local_model = Local_compression_(local_model)
+
+   model = cmp_local_model
+   return model
+
+
+
+
