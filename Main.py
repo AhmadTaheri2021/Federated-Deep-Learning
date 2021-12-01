@@ -21,6 +21,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 import tensorflow as tf
+import argparse 
 #-----------------------------------------
 import Client_side
 import Server_side
@@ -28,10 +29,36 @@ import Data_Preprocessing
 import Utils
 #------------------------------------------
 
+# ###########################################
+# this section is to run 'Main.py' from command line and set implementation settings 
+parser = argparse.ArgumentParser(
+	description = "This is a Federated Deep Learning simulator.",
+	prog = "Main.py",
+	epilog = "more details on https://github.com/AhmadTaheri2021/Federated-Deep-Learning"
+)
+
+
+parser.add_argument(
+	"-c", "--customized",
+	help = "to use customized configuration settings. then use [-f] to set the filname",
+	action='store_true'
+
+)
+
+parser.add_argument(
+	"-f", "--file",
+	help = "to load configuration settings from a csv file, set the file name. for example '-f yourfilename.csv'",
+	type = str,
+         default = "config.csv"
+)
+
+# -----
+args = parser.parse_args()
+# ##########################################
 
 #Implementation settings 
 '''
-config_(num_of_clients=100,
+config_(args,num_of_clients=100,
             Max_Round=100,
             loss='categorical_crossentropy',
             metrics=['accuracy'],
@@ -40,7 +67,7 @@ config_(num_of_clients=100,
             input_shape=(28, 28, 1)
            )
 '''
-global_config = Server_side.config_()
+global_config = Server_side.config_(args)
 
 # import and prepare data
 # laod dataset 
@@ -93,7 +120,7 @@ for round in range(global_config['Max_Round']):
     global_weights = global_model.get_weights()
     # ### call clients ###
     for client in sub_clients:   
-        local_weight = Client_side.call_client(client,
+        local_weight = Server_side.call_client(client,
                                                global_weights,
                                                partitioned_data[client],
                                                global_config)
