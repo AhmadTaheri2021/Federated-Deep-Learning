@@ -21,6 +21,7 @@ limitations under the License.
 import numpy as np
 from sklearn.metrics import accuracy_score
 import tensorflow as tf
+import Client_side
 
 # #### global settings configuration  #####
 def config_(args,num_of_clients=100,
