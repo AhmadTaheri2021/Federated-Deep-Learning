@@ -26,7 +26,8 @@ Furthermore, FedSim can be used to investigate the performance of FL algorithms 
 -  non-IID ei : equal number of samples and imbalanced number of samples from a subset of classes.
 -  non-IID ii : imbalanced number of samples and imbalanced number of samples from a subset of classes (fig. 3).
 
-By default in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. So that, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 2).  in this section contents of the project will be described in detail. The following list represents modules of the project. 
+By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 2). 
+in this section contents of the project will be described in detail. The following list represents modules of the project. 
  
  ### *Contents :* 
  1. Server_side.py 
@@ -69,7 +70,8 @@ Then, FedSim will set the parameters according to the 'config.csv' file. to chan
  
        fig. 2. illustrates (the non-iid-ie) dataset (horizontal axis = clients and vertical axis = number of samples)
 
-![image](https://user-images.githubusercontent.com/92728743/144510612-b8e55051-f4d2-4cf3-8434-c43cb018c67c.png)
+![image](https://user-images.githubusercontent.com/92728743/144513113-e99c8c61-63c6-4a4e-8d52-c67cc3708f5b.png)
+
 
        fig. 3. illustrates (the non-iid-ii) dataset (horizontal axis = clients and vertical axis = the number of samples from each class)
 
