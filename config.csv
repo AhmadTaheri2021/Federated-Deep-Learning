@@ -3,8 +3,8 @@ Dataset,FMNIST
 Model,CNN
 num_of_clients,100
 Max_Round,100
-loss,categorical_crossentropy'
-metrics,'accuracy'
+loss,categorical_crossentropy
+metrics,accuracy
 batch_size,32
 learning_rate,0.01
 distribution,0
