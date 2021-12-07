@@ -32,7 +32,7 @@ import Utils
 # ###########################################
 # this section is to run 'Main.py' from command line and set implementation settings 
 parser = argparse.ArgumentParser(
-	description = "This is a Federated Deep Learning simulator.",
+	description = "FedSim is a Federated Deep Learning simulator.",
 	prog = "Main.py",
 	epilog = "more details on https://github.com/AhmadTaheri2021/Federated-Deep-Learning"
 )
