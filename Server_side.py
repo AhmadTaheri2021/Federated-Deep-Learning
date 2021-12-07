@@ -183,6 +183,8 @@ def Aggregation(weights,partitioned_data,sub_clients):
 
     # ####  #######
     #evaluate the global model
+log_ = dict()    
+
 def evaluate(round_,global_model, X_test,Y_test):    
     cce = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
    # X_test,Y_test = zip(*test_data)
@@ -190,4 +192,8 @@ def evaluate(round_,global_model, X_test,Y_test):
     loss_ = cce(Y_test, logits)
     Accuracy_ = accuracy_score(tf.argmax(logits, axis=1), tf.argmax(Y_test, axis=1))
     print('Round : {} | Accuracy: {} | loss: {:.3}'.format(round_, Accuracy_, loss_))
-    #print(global_acc)    
+   
+    result_ = [round_, Accuracy_,float(loss_)]
+    log_.update({'Round_{}'.format(round_) : result_}) 
+    return log_   
+
