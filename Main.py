@@ -136,3 +136,8 @@ for round in range(global_config['Max_Round']):
   
     #evaluate the global model
     Server_side.evaluate(round,global_model, X_test,Y_test)
+    #evaluate the global model
+    results_ = Server_side.evaluate(round,global_model, X_test,Y_test)
+
+# write results in log_.csv
+Utils.Log_(results_)
