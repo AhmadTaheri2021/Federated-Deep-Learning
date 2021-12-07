@@ -15,7 +15,7 @@ limitations under the License.
 """
 import numpy as np
 import matplotlib.pyplot as plt
-
+import csv
 
 
 # ###############################################
@@ -23,8 +23,9 @@ def Log_(info_):
     '''This function is used to save reports into a csv file.
        'info_' : a dictionary which contains parametters name and their values
     '''
+    '''
     # open the file in the write mode
-    f = open('./Log.csv', 'w')
+    f = open('./log.csv', 'w')
     
     # create the csv writer
     writer = csv.writer(f)
@@ -38,7 +39,25 @@ def Log_(info_):
 
     # close the file
     f.close()
+    '''
+    # open the file in the write mode
+    f = open('./log_.csv', 'w')
+    
+    # create the csv writer
+    writer = csv.writer(f)
+
+    writer.writerow(['round', 'accuracy', 'loss'])
+    for i in range(len(info_)):
+       r = 'Round_{}'.format(i)
+       res = info_[r]
+       row = [res[0], res[1], res[2]]
+       # write a row to the csv file
+       writer.writerow(row)
+    # close the file
+    f.close()
+   
 # ########################
+
 def comm_cost_calc_(info_):
    '''
       this function calculates the communication cost.
