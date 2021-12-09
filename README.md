@@ -15,7 +15,7 @@ Federated learning is an approach (paradigm) to train a central model (global mo
 
 ![image](https://user-images.githubusercontent.com/92728743/141955974-0b7e2165-3cfd-47db-aff0-0e53f12449c5.png)
 
-      fig. 1. A schematic view of Federated Learning approach
+      Fig. 1. A schematic view of Federated Learning approach
 
 ## *Descriptions of implementation :*
 In this project, a Federated Deep Learning Simulator (FedSim) is introduced. FedSim provides a simple and flexible platform to implement federated learning algorithms and strategies, such as aggregation methods, communication methods, and compression methods. it is also provided to implement different strategies for local optimization algorithms (customized learning rate, batch size and so on).
@@ -24,9 +24,10 @@ Furthermore, FedSim can be used to investigate the performance of FL algorithms 
 -  non-IID ie : imbalanced number of samples and equal number of samples from all of classes.
 -  non-IID ee : equal number of samples and equal number of samples from a subset of classes. 
 -  non-IID ei : equal number of samples and imbalanced number of samples from a subset of classes.
--  non-IID ii : imbalanced number of samples and imbalanced number of samples from a subset of classes (fig. 3).
+-  non-IID ii : imbalanced number of samples and imbalanced number of samples from a subset of classes (fig. 4).
 
-By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 2). 
+By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3). 
+### *FedSim Components :*
 in this section contents of the project will be described in detail. The following list represents modules of the project. 
  
  ### *Contents :* 
@@ -35,7 +36,13 @@ in this section contents of the project will be described in detail. The followi
  3. Data_Preprocessing.py
  4. Utils.py
  5. config.csv
- 6. Main.py
+ 6. requirements.txt
+ 7. Main.py
+ 
+ 
+ ![image](https://user-images.githubusercontent.com/92728743/145492314-0f2eecb3-7517-4169-8610-d9a202fda991.png)
+ 
+     Fig. 2. A schematic view of FedSim components 
  
  
 ##### *The ‘Server_side’ module:*
@@ -48,6 +55,9 @@ The module “*Data_Preprocessing*” contains three functions such as:  'load_d
 The module “*Main*” involves the main loop of process.
 
 ## *How to execute FedSim*
+Note: Before executing FedSim make sure that all requirements such as packages and libraries have been installed. To  do that, you can use the following instructions:
+
+       $ pip install -r instruction.txt
 In order to execute FedSim you can use the following instruction :
 
        $ python Main.py 
@@ -70,12 +80,12 @@ Table 1. represents the content of config.csv (note that if you remove parameter
 
 
  
-       fig. 2. illustrates (the non-iid-ie) dataset (horizontal axis = clients and vertical axis = number of samples)
+       fig. 3. illustrates (the non-iid-ie) dataset (horizontal axis = clients and vertical axis = number of samples)
 
 ![image](https://user-images.githubusercontent.com/92728743/144513113-e99c8c61-63c6-4a4e-8d52-c67cc3708f5b.png)
 
 
-       fig. 3. illustrates (the non-iid-ii) dataset (horizontal axis = clients and vertical axis = the number of samples from each class)
+       fig. 4. illustrates (the non-iid-ii) dataset (horizontal axis = clients and vertical axis = the number of samples from each class)
 
 ### *References:*
 [1] H. Brendan McMahan and Daniel Ramage. Federated learning: Collaborative machine learning without centralized training data. https://research.googleblog.com/2017/04/federated-learning-collaborative.html, 2017.
