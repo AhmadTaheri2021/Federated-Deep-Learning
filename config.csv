@@ -1,10 +1,13 @@
 param,val
-Dataset,FMNIST
-Model,CNN
+dataset_,FMNIST
+Model_type,CNN
 num_of_clients,100
-Max_Round,100
+Max_Round,10
 loss,categorical_crossentropy
 metrics,accuracy
 batch_size,32
 learning_rate,0.01
-distribution,0
+optimizer,sgd
+dist_type,1
+dist_alpha,0.7
+participation_rate,0.1
