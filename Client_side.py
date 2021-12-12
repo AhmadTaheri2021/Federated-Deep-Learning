@@ -22,17 +22,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 '''
 import numpy as np
-import random
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 import tensorflow as tf
 
+
+import Data_Preprocessing
+import Utils
+
 # #####################################   
 
-def Local_compression_(local_model):
+
+def Pre_Comm(local_model):
    '''
-     this function is used to compress local model.
-     'local_model' : local model which must be compressed. 
+     this function is launched before communication (before sending local model).
+     'local_model' : local model. 
    '''
    
    cmp_model = local_model
@@ -40,19 +44,18 @@ def Local_compression_(local_model):
 
 # ################################################
 
-def uncompression_(global_model):
+def Post_Comm(global_model):
    '''
-     this function is used to uncompress global model.
-     'global_model' : global model which must be uncompressed. 
+     this function is launched after communication (after receiving global model).
+     'global_model' : global model. 
    '''
    
    model = global_model
    return model
 
-
 # ##################################################
 # #### 
-def local_fit(client,global_weights,local_dataset,global_config):
+def local_train(client,global_weights,local_dataset,global_config):
        
        # create local model according to global model structure
         local_model = global_config['model']
@@ -85,24 +88,24 @@ def local_fit(client,global_weights,local_dataset,global_config):
 
 
 # ################################################
-def call_client(client,global_weights,local_dataset,global_config):
+def Communication(client,global_weights,local_dataset,global_config):
 
    '''
      this function is used to communicate with the server.
      
    '''
-   #uncompress global model
-   global_model = uncompression_(global_weights)
+   #after communication processes
+   global_model = Post_Comm(global_weights)
    
-   #send global model
-   local_model = local_fit(client,
+   #Training local model
+   local_model = local_train(client,
                            global_model,
                            local_dataset,
                            global_config)
 
    
-   #uncompress local model
-   cmp_local_model = Local_compression_(local_model)
+   #before communication processes
+   cmp_local_model = Pre_Comm(local_model)
 
    model = cmp_local_model
    return model
