@@ -72,7 +72,8 @@ Then, FedSim will set the parameters according to the 'config.csv' file. to chan
        $ python Main.py -c -f yourfilename.csv
        
 Table 1. represents the content of config.csv (note that if you remove parameters from config.csv their default values will be used.)       
-![image](https://user-images.githubusercontent.com/92728743/144516344-6f156e50-c8e3-4202-ae66-f0f8031216a0.png)
+![image](https://user-images.githubusercontent.com/92728743/145713386-7d14e6ef-af02-4bd2-b2f0-dc579f824fda.png)
+
 
  
 
