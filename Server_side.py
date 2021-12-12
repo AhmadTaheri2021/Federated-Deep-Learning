@@ -25,13 +25,14 @@ import Client_side
 
 # #### global settings configuration  #####
 def config_(args,num_of_clients=100,
-            Max_Round=100,
+            Max_Round=10,
             loss='categorical_crossentropy',
             metrics=['accuracy'],
             bs=32,
             lr=0.01,
-            input_shape=(28, 28, 1)
-            ):
+            dist_type=1,
+            alpha=0.7,
+            participation_rate=0.1):
    
     ''' 
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr, 
@@ -39,13 +40,11 @@ def config_(args,num_of_clients=100,
     '''
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr) 
     #optimizer = tf.keras.optimizers.Adam() #(learning_rate=lr)
-  
-    #input_shape = (28, 28, 1)
-    
+         
     # a list of client names
     client_names = ['client_{}'.format(id) for id in range(1,num_of_clients+1)]
     
-    global_config = {'ds_name' : 'FMINST',
+    global_config = {'dataset_' : 'FMNIST', #'CFAR10'
                       'Model_type' : 'CNN',
                       'num_of_clients' : num_of_clients,
                       'Max_Round' :  Max_Round,
@@ -54,8 +53,10 @@ def config_(args,num_of_clients=100,
                       'batch_size' : bs ,
                       'learning_rate' : lr,
                       'optimizer' : optimizer,
-                      'input_shape' : input_shape,
-                       'client_names' : client_names}
+                      'client_names' : client_names,
+                      'dist_type' : dist_type,
+                      'dist_alpha' : alpha,
+                      'participation_rate' : participation_rate}
 
 
     
@@ -87,10 +88,10 @@ def config_(args,num_of_clients=100,
 # ################################################
 # ################################################
 
-def global_compression_(global_model):
+def Pre_Comm(global_model):
    '''
-     this function is used to compress global model.
-     'model' : global model which must be compressed. 
+     this function is launched before communication (before sending global model).
+     'model' : global model. 
    '''
    
    cmp_mode = global_model
@@ -98,10 +99,10 @@ def global_compression_(global_model):
 
 # ################################################
 
-def uncompression_(local_model):
+def Post_Comm(local_model):
    '''
-     this function is used to uncompress local model.
-     'cmp_model' : global model which must be compressed. 
+     this function is launched after communication (after receiving local model).
+     'cmp_model' : global model. 
    '''
    
    mode = local_model
@@ -109,29 +110,41 @@ def uncompression_(local_model):
 
 # ################################################
 
-def call_client(client,
+def Communication(sub_clients,
                 global_weights,
                 data_,
                 global_config):
-   '''
+    '''
      this function is used to communicate with clients.
      
-   '''
-   # compress global model 
-   cmp_g_model = global_compression_(global_weights)
+    '''
+    # list of local model weights 
+    local_weights = dict()
+   # ### call clients ###
+    for client in sub_clients:   
+         # Preprocessing before communication 
+         g_model = Pre_Comm(global_weights)
    
-   #send global model
-   rec_local_model = Client_side.call_client(client,
-                           cmp_g_model,
-                           data_,
+         #send global model & receive local modeel
+         rec_local_model = Client_side.Communication(client,
+                           g_model,
+                           data_[client],
                            global_config)
-   #receive local modeel
+         #
    
-   #uncompress local model
-   local_model = uncompression_(rec_local_model)
+         #after communication
+         local_model = Post_Comm(rec_local_model)
 
-   mode = local_model
-   return mode
+         # keep local weights        
+         local_weights.update({client: local_model})
+         #free up memory after each round
+         tf.keras.backend.clear_session()
+        
+   
+    # Aggregation
+    average_weights = Aggregation(local_weights,data_,sub_clients)
+    
+    return average_weights
 
 
 # ##################################################################### 
