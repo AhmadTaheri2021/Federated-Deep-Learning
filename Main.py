@@ -18,7 +18,6 @@ limitations under the License.
 """
 
 import numpy as np
-import random
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import argparse 
@@ -49,7 +48,7 @@ parser.add_argument(
 	"-f", "--file",
 	help = "to load configuration settings from a csv file, set the file name. for example '-f yourfilename.csv'",
 	type = str,
-         default = "config.csv"
+        default = "config.csv"
 )
 
 # -----
@@ -58,20 +57,22 @@ args = parser.parse_args()
 
 #Implementation settings 
 '''
-config_(args,num_of_clients=100,
-            Max_Round=100,
-            loss='categorical_crossentropy',
-            metrics=['accuracy'],
-            bs=32,
-            lr=0.01,
-            input_shape=(28, 28, 1)
-           )
+global_config = Server_side.config_(args,
+                                    num_of_clients=100,
+                                    Max_Round=5,
+                                    loss='categorical_crossentropy',
+                                    metrics=['accuracy'],
+                                    bs=32,
+                                    lr=0.01,
+                                    dist_type=1,
+                                    alpha=0.7,
+				    participation_rate=0.1)
 '''
 global_config = Server_side.config_(args)
 
 # import and prepare data
 # laod dataset 
-X_train, Y_train , X_test, Y_test = Data_Preprocessing.load_detaset()
+X_train, Y_train , X_test, Y_test, global_config = Data_Preprocessing.load_detaset(global_config)
 
 # Scaling data
 X_train, Y_train , X_test, Y_test = Data_Preprocessing.Scaling_data(X_train, Y_train , X_test, Y_test)
@@ -83,18 +84,15 @@ test_data = list(zip(X_test, Y_test))
 client_names = global_config['client_names']
 
 # data partitioning 
-max_sample_size = 0.1 # the maximum sample size which can be held by a client is set to 10%
+partitioned_data = Data_Preprocessing.Data_partitioning(X_train,Y_train, global_config)
 
-partitioned_data = Data_Preprocessing.Data_partitioning(train_data, 
-                                      global_config['num_of_clients'],
-                                      client_names,max_sample_size)
 
 # illustrate Data Distribution
 Utils.Show_dist(partitioned_data)
 
 # ####################################################
 # ### Global Model Initialization ###
-global_model = Server_side.creat_model(global_config['input_shape'], 10)
+global_model = Server_side.creat_model(global_config['input_shape'], global_config['num_of_classes'])
 global_config.update({'model' : global_model})
 
 # #####################################################
@@ -102,40 +100,28 @@ global_config.update({'model' : global_model})
 # -----------------------------------------#
 #             global loop                    
 # -----------------------------------------#
-for round in range(global_config['Max_Round']):
-              
-    # list of local model weights 
-    local_weights = dict()
-    
+for round in range(global_config['Max_Round']):        
+      
     # randomize clients sequence per round
-    random.shuffle(client_names)
+    np.random.shuffle(client_names)
   
-    # it is provided to set the percentage of participants (ps = 0.3 ==> 30%)
-    #ps = np.random.rand()
-    ps = 0.3
-    participants_size = int(np.floor(global_config['num_of_clients'] * ps)) # percent 
+    # the percentage of participated clients 
+    participation_rate = global_config['participation_rate'] # percent 
+    participants_size = int(np.floor(global_config['num_of_clients'] * participation_rate)) 
     sub_clients = [ client_names[clientID]  for clientID in range(participants_size)]
     
     # 
     global_weights = global_model.get_weights()
-    # ### call clients ###
-    for client in sub_clients:   
-        local_weight = Server_side.call_client(client,
+    # ### Server clients Communication ###
+   
+    average_weights = Server_side.Communication(sub_clients,
                                                global_weights,
-                                               partitioned_data[client],
+                                               partitioned_data,
                                                global_config)
-        # keep local weights        
-        local_weights.update({client: local_weight})
-        #free up memory after each round
-        tf.keras.backend.clear_session()
-        
-    # Aggregation
-    average_weights = Server_side.Aggregation(local_weights,partitioned_data,sub_clients)
+      
     #update global model 
     global_model.set_weights(average_weights)
   
-    #evaluate the global model
-    Server_side.evaluate(round,global_model, X_test,Y_test)
     #evaluate the global model
     results_ = Server_side.evaluate(round,global_model, X_test,Y_test)
 
