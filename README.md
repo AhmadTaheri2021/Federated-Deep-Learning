@@ -52,6 +52,7 @@ In order to provide a realistic simulation platform, FedSim provides miscellaneo
 -  non-IID bb : balanced sample size and balanced number of samples from a subset of classes. Each client has equal number of classes. For example, each client has 30% of all type of classes.
 -  non-IID bi : balanced sample size and imbalanced number of classes.
 -  non-IID ii : imbalanced sample size and imbalanced number of classes. In this case, each client has different sample size and also, the number of classes are different and imbalanced. For example, a client may have 30% of all type of classes with different number of sample from each class. (fig. 4).
+
 Furthermore, the Data_Preprocessing module can be used to produce different cases of data distributions for investigating the performance of Federated Learning algorithms.
 
 
