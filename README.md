@@ -2,7 +2,7 @@
 A Simulator for Federated Deep Learning. 
 
 ## *Introduction:*
-Federated learning is an approach (paradigm) to train a central model (global model) based on distributed data [1]. In this approach, instead of collecting data from distributed resources (clients) and creating a central dataset, in an iterative process each client downloads the global model and retrains it according to the local dataset. Then local models will be sent back to the server to be aggregated to obtain the global model. A schematic view of Federated Learning approach is illustrated in (fig. 1). 
+Federated learning is an approach (paradigm) to train a central model (global model) based on distributed data [1]. In this approach, instead of collecting data from distributed resources (clients) and creating a central dataset, in an iterative process each client downloads the global model and retrains it according to the local dataset. Then local models will be sent back to the server to be aggregated to obtain the global model. A schematic view of Federated Learning approach is illustrated in (fig. 1).  
 
 #### *Advantages:* 
  - Privacy preservation (the main aim of this approach).
@@ -13,24 +13,15 @@ Federated learning is an approach (paradigm) to train a central model (global mo
  - The communication cost (models may have million number of weights)
  - Heterogeneous and imbalanced data distribution on clients (non-IID dataset)
 
+To develop and investigate new strategies, algorithms and methods for federated learning, it is essential to use a federated learning simulator. In this project, a simple and flexible Federated Deep Learning Simulator (FedSim) is designed. FedSim provides a simple platform to implement federated learning algorithms and strategies, such as aggregation methods, communication methods, compression methods and privacy preserving strategies. It is also provided to implement different strategies for local optimization algorithms (customized learning rate, batch size and so on). Furthermore, FedSim can be used to investigate the performance of Federated Learning algorithms with different cases of data distributions.
+The rest of the article is organized as follows: Section 2, explains the components of FedSim. The section 3 describes different data distributions provided in FedSim. In section 4, the usage of the simulator and its parameters would be explained.     
 ![image](https://user-images.githubusercontent.com/92728743/141955974-0b7e2165-3cfd-47db-aff0-0e53f12449c5.png)
 
       Fig. 1. A schematic view of Federated Learning approach
 
-## *Descriptions of implementation :*
-In this project, a Federated Deep Learning Simulator (FedSim) is introduced. FedSim provides a simple and flexible platform to implement federated learning algorithms and strategies, such as aggregation methods, communication methods, and compression methods. it is also provided to implement different strategies for local optimization algorithms (customized learning rate, batch size and so on).
-Furthermore, FedSim can be used to investigate the performance of FL algorithms with different cases of data distributions such as:
--  IID : equal sample size and equal number of samples of all classes
--  non-IID ie : imbalanced number of samples and equal number of samples from all of classes.
--  non-IID ee : equal number of samples and equal number of samples from a subset of classes. 
--  non-IID ei : equal number of samples and imbalanced number of samples from a subset of classes.
--  non-IID ii : imbalanced number of samples and imbalanced number of samples from a subset of classes (fig. 4).
-
-By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3). 
-### *FedSim Components :*
-in this section contents of the project will be described in detail. The following list represents modules of the project. 
- 
- ### *Contents :* 
+## *Section 2. The Components of FedSim :*
+In this section, components and contents of FedSim will be described in detail. FedSim contains five modules: Server_side, Client_side, Data_Preprocessing, Utils and Main. The workflow diagram of FedSim components is illustrated in (Fig. 2). The following list represents contents of the project:
+### *Contents :* 
  1. Server_side.py 
  2. Client_side.py
  3. Data_Preprocessing.py
@@ -42,7 +33,7 @@ in this section contents of the project will be described in detail. The followi
  
  ![image](https://user-images.githubusercontent.com/92728743/145492314-0f2eecb3-7517-4169-8610-d9a202fda991.png)
  
-     Fig. 2. A schematic view of FedSim components 
+     Fig. 2. illustrates the workflow diagram of FedSim components 
  
  
 ##### *The ‘Server_side’ module:*
@@ -54,8 +45,20 @@ The module “*Data_Preprocessing*” contains three functions such as:  'load_d
 ##### *The ‘Main’ module:*
 The module “*Main*” involves the main loop of process.
 
-## *How to execute FedSim*
-Note: Before executing FedSim make sure that all requirements such as packages and libraries have been installed. To  do that, you can use the following instructions:
+## *Section 3. Data distributions:*
+In order to provide a realistic simulation platform, FedSim provides miscellaneous form of data distributions such as independent and identically distributed (IID) and non-IID datasets such as:
+-  IID : balanced sample size and balanced number of classes. All clients have same sample size from all     type of classes. 
+-  non-IID ib : imbalanced sample size and balanced number of classes. Each client has different number of samples and balanced number of samples from all classes.
+-  non-IID bb : balanced sample size and balanced number of samples from a subset of classes. Each client has equal number of classes. For example, each client has 30% of all type of classes.
+-  non-IID bi : balanced sample size and imbalanced number of classes.
+-  non-IID ii : imbalanced sample size and imbalanced number of classes. In this case, each client has different sample size and also, the number of classes are different and imbalanced. For example, a client may have 30% of all type of classes with different number of sample from each class. (fig. 4).
+Furthermore, the Data_Preprocessing module can be used to produce different cases of data distributions for investigating the performance of Federated Learning algorithms.
+
+
+## *Section 4. The Usage of FedSim*
+The flexibility and user-friendly are the main aims in this project. Thus, it is easy to implement new algorithms in FedSim and test their performance with different conditions. In this way, to enhance the flexibility, a set of parameters are considered in FedSim (Table. 1). In addition, to make FedSim more user-friendly, it is provided to import all parameters from a csv type file. So, users can easily run and test their algorithms according to different settings. By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3). 
+
+Note: Before executing FedSim make sure that all requirements such as packages and libraries have been installed. To do that, you can use the following instructions:
 
        $ pip install -r instruction.txt
 In order to execute FedSim you can use the following instruction :
@@ -66,7 +69,7 @@ Note, in this case, FedSim will run with default settings. So, to customize impl
 
        $ python Main.py -c 
  
-Then, FedSim will set the parameters according to the 'config.csv' file. to change the implementation settings, you should customize the 'config.csv' or you should use your personal config file. the following instruction must be used:
+Then, FedSim will set the parameters according to the 'config.csv' file. to change the implementation settings, you should customize the 'config.csv' or you should use your personal config file. In this case, the following instruction must be used:
 
    
        $ python Main.py -c -f yourfilename.csv
