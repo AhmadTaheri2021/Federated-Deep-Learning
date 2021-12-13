@@ -14,6 +14,7 @@ Federated learning is an approach (paradigm) to train a central model (global mo
  - Heterogeneous and imbalanced data distribution on clients (non-IID dataset)
 
 To develop and investigate new strategies, algorithms and methods for federated learning, it is essential to use a federated learning simulator. In this project, a simple and flexible Federated Deep Learning Simulator (FedSim) is designed. FedSim provides a simple platform to implement federated learning algorithms and strategies, such as aggregation methods, communication methods, compression methods and privacy preserving strategies. It is also provided to implement different strategies for local optimization algorithms (customized learning rate, batch size and so on). Furthermore, FedSim can be used to investigate the performance of Federated Learning algorithms with different cases of data distributions.
+
 The rest of the article is organized as follows: Section 2, explains the components of FedSim. The section 3 describes different data distributions provided in FedSim. In section 4, the usage of the simulator and its parameters would be explained.     
 ![image](https://user-images.githubusercontent.com/92728743/141955974-0b7e2165-3cfd-47db-aff0-0e53f12449c5.png)
 
