@@ -50,16 +50,23 @@ The module “*Main*” involves the main loop of process.
 In order to provide a realistic simulation platform, FedSim provides miscellaneous form of data distributions such as independent and identically distributed (IID) and non-IID datasets such as:
 -  IID : balanced sample size and balanced number of classes. All clients have same sample size from all     type of classes. 
 -  non-IID ib : imbalanced sample size and balanced number of classes. Each client has different number of samples and balanced number of samples from all classes.
--  non-IID bb : balanced sample size and balanced number of samples from a subset of classes. Each client has equal number of classes. For example, each client has 30% of all type of classes.
--  non-IID bi : balanced sample size and imbalanced number of classes.
+-  non-IID bi : balanced sample size and imbalanced number of samples from a subset of classes. In this case, each local dataset contains a subset of classes (For example, just 30%  of classes).
 -  non-IID ii : imbalanced sample size and imbalanced number of classes. In this case, each client has different sample size and also, the number of classes are different and imbalanced. For example, a client may have 30% of all type of classes with different number of sample from each class. (fig. 4).
 
 Furthermore, the Data_Preprocessing module can be used to produce different cases of data distributions for investigating the performance of Federated Learning algorithms.
 
 
 ## *Section 4. The Usage of FedSim*
-The flexibility and user-friendly are the main aims in this project. Thus, it is easy to implement new algorithms in FedSim and test their performance with different conditions. In this way, to enhance the flexibility, a set of parameters are considered in FedSim (Table. 1). In addition, to make FedSim more user-friendly, it is provided to import all parameters from a csv type file. So, users can easily run and test their algorithms according to different settings. By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3). 
+The flexibility and user-friendly are the main aims in this project. Thus, it is easy to implement new algorithms in FedSim and test their performance with different conditions. In this way, to enhance the flexibility, a set of parameters are considered in FedSim (Table. 1). In addition, to make FedSim more user-friendly, it is provided to import all parameters from a csv type file. So, users can easily run and test their algorithms according to different settings. By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3).
 
+As mentioned before, FedSim utilizes a set of parameters that would be categorized in 3 groups, such as: (a) data partitioning and distribution parameters. (b) model and optimizer parameters. (c) infrastructure parameters. These parameters and their descriptions are explained in (Table. 1). 
+
+Table. 1. represents FedSim parameters and their descriptions  
+
+![image](https://user-images.githubusercontent.com/92728743/145910605-028774ab-0253-4a6f-ba62-bd55861e8e9a.png)
+
+
+#### *How to execute FedSim*
 Note: Before executing FedSim make sure that all requirements such as packages and libraries have been installed. To do that, you can use the following instructions:
 
        $ pip install -r instruction.txt
@@ -76,7 +83,7 @@ Then, FedSim will set the parameters according to the 'config.csv' file. to chan
    
        $ python Main.py -c -f yourfilename.csv
        
-Table 1. represents the content of config.csv (note that if you remove parameters from config.csv their default values will be used.)       
+Table 2. represents the content of config.csv (note that if you remove parameters from config.csv their default values will be used.)       
 ![image](https://user-images.githubusercontent.com/92728743/145713386-7d14e6ef-af02-4bd2-b2f0-dc579f824fda.png)
 
 
@@ -86,7 +93,7 @@ Table 1. represents the content of config.csv (note that if you remove parameter
 
 
  
-       fig. 3. illustrates (the non-iid-ie) dataset (horizontal axis = clients and vertical axis = number of samples)
+       fig. 3. illustrates (the non-iid-ib) dataset (horizontal axis = clients and vertical axis = number of samples)
 
 ![image](https://user-images.githubusercontent.com/92728743/144513113-e99c8c61-63c6-4a4e-8d52-c67cc3708f5b.png)
 
