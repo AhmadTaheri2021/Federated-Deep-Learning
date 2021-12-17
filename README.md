@@ -69,7 +69,7 @@ Table. 1. represents FedSim parameters and their descriptions
 #### *How to execute FedSim*
 Note: Before executing FedSim make sure that all requirements such as packages and libraries have been installed. To do that, you can use the following instructions:
 
-       $ pip install -r instruction.txt
+       $ pip install -r requirements.txt
 In order to execute FedSim you can use the following instruction :
 
        $ python Main.py 
