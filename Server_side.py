@@ -19,6 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 '''
 import numpy as np
+import pandas as pd
 from sklearn.metrics import accuracy_score
 import tensorflow as tf
 import Client_side
@@ -44,7 +45,7 @@ def config_(args,num_of_clients=100,
     # a list of client names
     client_names = ['client_{}'.format(id) for id in range(1,num_of_clients+1)]
     
-    global_config = {'dataset_' : 'FMNIST', #'CFAR10'
+    global_config = {'dataset_' : 'MNIST', #'FMNIST', #'CFAR10'
                       'Model_type' : 'CNN',
                       'num_of_clients' : num_of_clients,
                       'Max_Round' :  Max_Round,
@@ -72,6 +73,12 @@ def config_(args,num_of_clients=100,
           for i in range(len(df_config)):
              if(params[i] == 'metrics'):
                vals[i] = [vals[i]]
+             if(params[i] == 'optimizer'):
+               if(vals[i] == 'sgd'):  
+                 optimizer = tf.keras.optimizers.SGD(learning_rate=lr) 
+                            
+               vals[i] = optimizer
+  
              global_config.update({params[i] : vals[i]})
      
           
@@ -198,13 +205,13 @@ def Aggregation(weights,partitioned_data,sub_clients):
     #evaluate the global model
 log_ = dict()    
 
-def evaluate(round_,global_model, X_test,Y_test):    
+def evaluate(round_,Max_Round,global_model, X_test,Y_test):    
     cce = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
    # X_test,Y_test = zip(*test_data)
     logits = global_model.predict(X_test)
     loss_ = cce(Y_test, logits)
     Accuracy_ = accuracy_score(tf.argmax(logits, axis=1), tf.argmax(Y_test, axis=1))
-    print('Round : {} | Accuracy: {} | loss: {:.3}'.format(round_, Accuracy_, loss_))
+    print('Round : {}/{} | Accuracy: {} | loss: {:.3}'.format((round_+1),Max_Round, Accuracy_, loss_))
    
     result_ = [round_, Accuracy_,float(loss_)]
     log_.update({'Round_{}'.format(round_) : result_}) 

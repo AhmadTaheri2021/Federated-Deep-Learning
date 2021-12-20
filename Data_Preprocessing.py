@@ -23,6 +23,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+import os
+
 
 # #### import and prepare data ####
 def load_detaset(global_config):
@@ -30,9 +33,12 @@ def load_detaset(global_config):
     num_of_classes = 10
     input_shape = (28, 28, 1)
     print(' loading  {}  Dataset...'.format(dataset_))
+    current_dir = os.getcwd()
     # laod dataset 
     if(dataset_ == 'MNIST'):
-       (X_train, Y_train), (X_test, Y_test) = tf.keras.datasets.mnist.load_data()
+       (X_train, Y_train), (X_test, Y_test) = mnist.load_data(path=current_dir+'/dataset/mnist.npz')
+
+       #(X_train, Y_train), (X_test, Y_test) = tf.keras.datasets.mnist.load_data()
        num_of_classes = 10
        input_shape = (28, 28, 1)
     
@@ -72,10 +78,10 @@ def Data_partitioning(X_train,Y_train, global_config,show_dist=True):
   
     data = list(zip(X_train, Y_train))
     num_of_classes = int(np.asscalar(np.max(Y_train))+1)
-    num_of_clients = global_config['num_of_clients']
+    num_of_clients = int(global_config['num_of_clients'])
     client_names = global_config['client_names']
-    dist_type = global_config['dist_type']
-    alpha = global_config['dist_alpha']
+    dist_type = int(global_config['dist_type'])
+    alpha = float(global_config['dist_alpha'])
     
     # shuffling the data (randomization)  
     #random.shuffle(data)
@@ -138,9 +144,9 @@ def Data_partitioning(X_train,Y_train, global_config,show_dist=True):
       dist = np.reshape(dist,(num_of_clients,))
       #dist = dist +  min_sample_size
 
-      x = np.linspace(1,num_of_clients,num=num_of_clients)
-      plt.bar(x,dist)
-      plt.show()
+      #x = np.linspace(1,num_of_clients,num=num_of_clients)
+      #plt.bar(x,dist)
+      #plt.show()
     #
       s = 0    
       Dist_Data = [ 0 for i in range(num_of_clients)]
@@ -265,14 +271,14 @@ def Data_partitioning(X_train,Y_train, global_config,show_dist=True):
 
        q_dist = [np.sum(dist[:,i]) for i in range(num_of_clients)]
 
-
+    '''
     if(show_dist):
        print(np.min(q_dist))
        print(np.max(q_dist))
        x = np.linspace(1,num_of_clients,num=num_of_clients)
        plt.bar(x,q_dist)
        plt.show()
-       
+    '''   
 
     # 
     Client_Data = {client_names[i] : Dist_Data[i] for i in range(num_of_clients)} 

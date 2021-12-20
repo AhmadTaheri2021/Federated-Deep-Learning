@@ -20,13 +20,14 @@ limitations under the License.
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
+import keras 
 import argparse 
 #-----------------------------------------
 import Client_side
 import Server_side
 import Data_Preprocessing
 import Utils
-#------------------------------------------
+#------------------------------------------ 
 
 # ###########################################
 # this section is to run 'Main.py' from command line and set implementation settings 
@@ -40,7 +41,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
 	"-c", "--customized",
 	help = "to use customized configuration settings. then use [-f] to set the filname",
-	action='store_true'
+	action= 'store_true'
 
 )
 
@@ -88,7 +89,7 @@ partitioned_data = Data_Preprocessing.Data_partitioning(X_train,Y_train, global_
 
 
 # illustrate Data Distribution
-Utils.Show_dist(partitioned_data)
+#Utils.Show_dist(partitioned_data)
 
 # ####################################################
 # ### Global Model Initialization ###
@@ -100,14 +101,18 @@ global_config.update({'model' : global_model})
 # -----------------------------------------#
 #             global loop                    
 # -----------------------------------------#
-for round in range(global_config['Max_Round']):        
+Max_Rounds = int(global_config['Max_Round'])
+num_clients = int(global_config['num_of_clients'])
+print('----------- FedSim is running... --------------')
+
+for round in range(Max_Rounds):        
       
     # randomize clients sequence per round
     np.random.shuffle(client_names)
   
     # the percentage of participated clients 
-    participation_rate = global_config['participation_rate'] # percent 
-    participants_size = int(np.floor(global_config['num_of_clients'] * participation_rate)) 
+    participation_rate = float(global_config['participation_rate']) # percent 
+    participants_size = int(num_clients * participation_rate)
     sub_clients = [ client_names[clientID]  for clientID in range(participants_size)]
     
     # 
@@ -123,7 +128,8 @@ for round in range(global_config['Max_Round']):
     global_model.set_weights(average_weights)
   
     #evaluate the global model
-    results_ = Server_side.evaluate(round,global_model, X_test,Y_test)
+    results_ = Server_side.evaluate(round,Max_Rounds,global_model, X_test,Y_test)
 
 # write results in log_.csv
 Utils.Log_(results_)
+print('Reaults have been saved in log_.csv')

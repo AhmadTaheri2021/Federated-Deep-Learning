@@ -71,7 +71,7 @@ def local_train(client,global_weights,local_dataset,global_config):
         local_model.set_weights(global_weights)
         
         #fit local model 
-        bs = global_config['batch_size'] 
+        bs = int(global_config['batch_size']) 
         x_tr,y_tr = zip(*local_dataset)
         dataset = tf.data.Dataset.from_tensor_slices((list(x_tr), list(y_tr))).batch(bs)
         local_model.fit(dataset, epochs=1, verbose=0)
