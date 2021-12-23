@@ -28,7 +28,7 @@ import os
 
 
 # #### import and prepare data ####
-def load_detaset(global_config):
+def load_dataset(global_config):
     dataset_ = global_config['dataset_']
     num_of_classes = 10
     input_shape = (28, 28, 1)
@@ -51,6 +51,11 @@ def load_detaset(global_config):
        (X_train, Y_train), (X_test, Y_test) = tf.keras.datasets.cifar10.load_data()   
        num_of_classes = 10
        input_shape = (32, 32, 3)
+    '''
+    if(dataset_ == 'CUSTOM'):
+       print('You are using personal dataset, so, it is essential to modify the function load_dataset() in Data_Preprocessing module.')     
+       #load_data(path=current_dir+'/dataset/YourDatasetName.???')
+    '''
 
 
     global_config.update({'num_of_classes' : num_of_classes})
