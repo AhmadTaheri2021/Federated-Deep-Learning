@@ -73,7 +73,7 @@ global_config = Server_side.config_(args)
 
 # import and prepare data
 # laod dataset 
-X_train, Y_train , X_test, Y_test, global_config = Data_Preprocessing.load_detaset(global_config)
+X_train, Y_train , X_test, Y_test, global_config = Data_Preprocessing.load_dataset(global_config)
 
 # Scaling data
 X_train, Y_train , X_test, Y_test = Data_Preprocessing.Scaling_data(X_train, Y_train , X_test, Y_test)
