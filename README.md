@@ -23,24 +23,29 @@ The rest of the article is organized as follows: Section 2, explains the compone
 ## *Section 2. The Components of FedSim :*
 In this section, components and contents of FedSim will be described in detail. FedSim contains five modules: Server_side, Client_side, Data_Preprocessing, Utils and Main. The workflow diagram of FedSim components is illustrated in (Fig. 2). The following list represents contents of the project:
 ### *Contents :* 
- 1. Server_side.py 
- 2. Client_side.py
- 3. Data_Preprocessing.py
- 4. Utils.py
- 5. config.csv
- 6. requirements.txt
- 7. Main.py
+ 1. dataset (folder)
+ 2. Server_side.py 
+ 3. Client_side.py
+ 4. Data_Preprocessing.py
+ 5. Utils.py
+ 6. config.csv
+ 7. requirements.txt
+ 8. Main.py
  
  
  ![image](https://user-images.githubusercontent.com/92728743/145492314-0f2eecb3-7517-4169-8610-d9a202fda991.png)
  
      Fig. 2. illustrates the workflow diagram of FedSim components 
  
- 
+
+##### *The ‘dataset’ folder:*
+If you want to use your dataset, you should put it in “*dataset*” folder and set the parameter value of dataset in config.csv to 'CUSTOM'. Also, the folder “*dataset*” contains mnist dataset.
+
 ##### *The ‘Server_side’ module:*
-The module “*Serveer_side*” contains four functions such as:  'config_()' initializes the configuration parameters. 'Create_model()' is utilized to create model. 'Aggregation()' receives and aggregates local models. And also, 'Evaluation()' is used to evaluate the global model after each round. 
+The module “*Serveer_side*” contains following functions:  'config_()' initializes the configuration parameters. 'Create_model()' is utilized to create model. function 'Communication()' simulates the process of sending global model to clients and receiving local models from clients. Function 'Aggregation()' receives and aggregates local models. Function 'Evaluation()' is used to evaluate the global model after each round. And also, functions 'Pre_comm()' and 'Post_comm()' would be launched before sending global model to a client and after receiving each local model, respectively.
+
 ##### *The ‘Client_side’ module:*
-The module “*Client_side*” contains the 'Call_Client()' function which simulates the client-side processes such as: receiving global model and retrains it to create a local model.
+The module “*Client_side*” contains the following functions: function 'Communication()' simulates the process of sending local model to server and receiving global model from server. 'local_fit()' function retrains global model to create a local model. And also, functions 'Pre_comm()' and 'Post_comm()' would be launched before sending local model to server and after receiving global model, respectively.
 ##### *The ‘Data_Preprocessing’ module:*
 The module “*Data_Preprocessing*” contains three functions such as:  'load_detaset()' loads dataset and splits to train and test parts. 'Scaling_data()' is utilized to scale uploaded dataset. 'Data_partitioning()' is used to prepare distributed dataset.
 ##### *The ‘Main’ module:*
@@ -53,11 +58,10 @@ In order to provide a realistic simulation platform, FedSim provides miscellaneo
 -  non-IID bi : balanced sample size and imbalanced number of samples from a subset of classes. In this case, each local dataset contains a subset of classes (For example, just 30%  of classes).
 -  non-IID ii : imbalanced sample size and imbalanced number of classes. In this case, each client has different sample size and also, the number of classes are different and imbalanced. For example, a client may have 30% of all type of classes with different number of sample from each class. (fig. 4).
 
-Furthermore, the Data_Preprocessing module can be used to produce different cases of data distributions for investigating the performance of Federated Learning algorithms.
 
 
 ## *Section 4. The Usage of FedSim*
-The flexibility and user-friendly are the main aims in this project. Thus, it is easy to implement new algorithms in FedSim and test their performance with different conditions. In this way, to enhance the flexibility, a set of parameters are considered in FedSim (Table. 1). In addition, to make FedSim more user-friendly, it is provided to import all parameters from a csv type file. So, users can easily run and test their algorithms according to different settings. By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'Fashion MNIST' dataset is used in (non-iid-ie) form (fig. 3).
+The flexibility and user-friendly are the main aims in this project. Thus, it is easy to implement new algorithms in FedSim and test their performance with different conditions. In this way, to enhance the flexibility, a set of parameters are considered in FedSim (Table. 1). In addition, to make FedSim more user-friendly, it is provided to import all parameters from a csv type file. So, users can easily run and test their algorithms according to different settings. By default, in FedSim a Convolutional Neural Network (CNN) model is utilized for classification task. And also, the 'MNIST' dataset is used in (non-iid-ib) form (fig. 3).
 
 As mentioned before, FedSim utilizes a set of parameters that would be categorized in 3 groups, such as: (a) data partitioning and distribution parameters. (b) model and optimizer parameters. (c) infrastructure parameters. These parameters and their descriptions are explained in (Table. 1). 
 
