@@ -47,7 +47,7 @@ The module “*Serveer_side*” contains following functions:  'config_()' initi
 ##### *The ‘Client_side’ module:*
 The module “*Client_side*” contains the following functions: function 'Communication()' simulates the process of sending local model to server and receiving global model from server. 'local_fit()' function retrains global model to create a local model. And also, functions 'Pre_comm()' and 'Post_comm()' would be launched before sending local model to server and after receiving global model, respectively.
 ##### *The ‘Data_Preprocessing’ module:*
-The module “*Data_Preprocessing*” contains three functions such as:  'load_detaset()' loads dataset and splits to train and test parts. 'Scaling_data()' is utilized to scale uploaded dataset. 'Data_partitioning()' is used to prepare distributed dataset.
+The module “*Data_Preprocessing*” contains three functions such as:  'load_dataset()' loads dataset and splits to train and test parts. 'Scaling_data()' is utilized to scale uploaded dataset. 'Data_partitioning()' is used to prepare distributed dataset.
 ##### *The ‘Main’ module:*
 The module “*Main*” involves the main loop of process.
 
