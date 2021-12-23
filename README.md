@@ -39,7 +39,7 @@ In this section, components and contents of FedSim will be described in detail. 
  
 
 ##### *The ‘dataset’ folder:*
-If you want to use your dataset, you should put it in “*dataset*” folder and set the parameter value of dataset in config.csv to 'CUSTOM'. Also, the folder “*dataset*” contains mnist dataset.
+If you want to use your dataset, you should put it in “*dataset*” folder and set the parameter value of dataset in config.csv to 'CUSTOM'. Note, in this case, it is essential to modify the function load_dataset() in Data_Preprocessing module.
 
 ##### *The ‘Server_side’ module:*
 The module “*Serveer_side*” contains following functions:  'config_()' initializes the configuration parameters. 'Create_model()' is utilized to create model. function 'Communication()' simulates the process of sending global model to clients and receiving local models from clients. Function 'Aggregation()' receives and aggregates local models. Function 'Evaluation()' is used to evaluate the global model after each round. And also, functions 'Pre_comm()' and 'Post_comm()' would be launched before sending global model to a client and after receiving each local model, respectively.
