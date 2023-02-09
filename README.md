@@ -104,5 +104,8 @@ Table 2. represents the content of config.csv (note that if you remove parameter
 
        fig. 4. illustrates (the non-iid-ii) dataset (horizontal axis = clients and vertical axis = the number of samples from each class)
 
+### *Acknowledgement:*
+This simulator was developed under supervision of Dr. Keyvan RahimiZadeh.
+
 ### *References:*
 [1] H. Brendan McMahan and Daniel Ramage. Federated learning: Collaborative machine learning without centralized training data. https://research.googleblog.com/2017/04/federated-learning-collaborative.html, 2017.
